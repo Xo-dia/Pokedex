@@ -1,34 +1,38 @@
-import React, {FunctionComponent} from 'react';
-import PokemonList from './page/pokemon-list';
+import React, { FunctionComponent } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import PokemonsDetail from './page/pokemon-details';
-import PageNotFound from './page/page-not-found';
-
-const App: FunctionComponent = () => { 
-
-
-    return (
+import PokemonsList from './pages/pokemon-list';
+import PokemonsDetail from './pages/pokemon-details';
+import PokemonEdit from './pages/pokemon-edit';
+import PokemonAdd from './pages/pokemon-add';
+import PageNotFound from './pages/page-not-found';
+import Login from './pages/login';
+import PrivateRoute from './PrivateRoute';
+ 
+const App: FunctionComponent = () => {
+ 
+  return (
     <Router>
-        <div>
-            {/* La barre de navigation commune à toutes les pages */}
-            <nav>
-                <div className='nav-wrapper teal '>
-                    <Link to="/" className="brand-logo center">Pokédex</Link>
-                </div>
-            </nav>
-            {/* Le système de gastion des routes de notre application */}
-            <Switch>
-                <Route exact path="/" component={PokemonList} />
-                <Route exact path="/pokemons" component={PokemonList} />
-                <Route exact path="/Pokemons/:id" component={PokemonsDetail} />
-                <Route component={PageNotFound} />
-            </Switch>
-        </div>
+      <div>
+      <nav> 
+        <div className="nav-wrapper teal">
+          <Link to="/" className="brand-logo center">Pokédex</Link>
+        </div> 
+      </nav>
+      <Switch>
+        <PrivateRoute exact path="/" component={PokemonsList} />
+        <Route exact path="/login" component={Login} />
+        <PrivateRoute exact path="/pokemons" component={PokemonsList} />
+        <PrivateRoute exact path="/pokemon/add" component={PokemonAdd} />
+        <PrivateRoute exact path="/pokemons/edit/:id" component={PokemonEdit} />
+        <PrivateRoute path="/pokemons/:id" component={PokemonsDetail} />
+        <Route component={PageNotFound} />
+      </Switch>
+      </div>
     </Router>
-    )
+  );
 }
-
-    export default App;
+ 
+export default App;
 
 
 
